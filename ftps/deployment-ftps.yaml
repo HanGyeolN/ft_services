@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: ftps
+ namespace: ft-services
+ labels:
+  app: ftps
+spec:
+ selector:
+  matchLabels:
+   app: ftps
+ template:
+  metadata:
+   name: ftps
+   namespace: ft-services
+   labels:
+    app: ftps
+  spec:
+   containers:
+   - name: ftps
+     image: docker-registry:5001/ftps
+     ports:
+     - containerPort: 21
+     volumeMounts:
+     - name: ftps-volume
+       mountPath: home/ftpuser
+   volumes:
+   - name: ftps-volume
+     persistentVolumeClaim:
+      claimName: pvc-ftps

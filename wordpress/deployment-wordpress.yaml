@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: wordpress
+ namespace: ft-services
+ labels:
+  app: wordpress
+spec:
+ selector:
+  matchLabels:
+   app: wordpress
+ strategy:
+  type: Recreate
+ template:
+  metadata:
+   name: wordpress
+   namespace: ft-services
+   labels:
+    app: wordpress
+  spec:
+   containers:
+   - name: wordpress
+     image: docker-registry:5001/wordpress
+     livenessProbe:
+      httpGet:
+       scheme: HTTPS
+       path: /status
+       port: 5050
+      initialDelaySeconds: 5
+      periodSeconds: 5
+     envFrom:
+     - configMapRef:
+        name: cm-wordpress
+     ports:
+     - containerPort: 5050
+       name: wordpress
+     volumeMounts:
+     - name: volume-wordpress
+       mountPath: /var/www/html
+   volumes:
+   - name: volume-wordpress
+     persistentVolumeClaim:
+      claimName: pvc-wordpress

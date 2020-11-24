@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-ftps
+  namespace: ft-services
+spec:
+  capacity:
+    storage: 5G
+  accessModes:
+    - ReadWriteOnce
+  local:
+    path: /node-ftps
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - {key: kubernetes.io/hostname, operator: In, values: [ip-172-26-1-141]}
+

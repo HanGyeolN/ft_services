@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: influxdb
+ namespace: ft-services
+ labels:
+  app: influxdb
+spec:
+ selector:
+  matchLabels:
+   app: influxdb
+ strategy:
+  type: Recreate
+ template:
+  metadata:
+   labels:
+    app: influxdb
+  spec:
+   containers:
+   - image: docker-registry:5001/influxdb
+     name: influxdb
+     ports:
+     - containerPort: 8086
+     volumeMounts:
+     - name: volume-influxdb
+       mountPath: /var/lib/influxdb
+   volumes:
+   - name: volume-influxdb
+     persistentVolumeClaim:
+      claimName: pvc-influxdb

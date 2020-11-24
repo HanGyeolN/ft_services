@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: private-repository-k8s
+  namespace: docker-registry
+  labels:
+    app: registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: registry
+  template:
+    metadata:
+      namespace: docker-registry
+      labels:
+        app: registry
+    spec:
+      volumes:
+      - name: certs-vol
+        persistentVolumeClaim:
+          claimName: certs-registry
+      - name: registry-vol
+        persistentVolumeClaim:
+          claimName: volume-registry
+      containers:
+        - image: registry:2
+          name: private-repository-k8s
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: REGISTRY_HTTP_TLS_CERTIFICATE
+            value: "/certs/registry.crt"
+          - name: REGISTRY_HTTP_TLS_KEY
+            value: "/certs/registry.key"
+          ports:
+            - containerPort: 5002
+          volumeMounts:
+          - name: certs-vol
+            mountPath: /certs
+          - name: registry-vol
+            mountPath: /var/lib/registry

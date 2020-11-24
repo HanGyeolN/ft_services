@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: mysql
+ namespace: ft-services
+ labels:
+  app: mysql
+spec:
+ selector:
+  matchLabels:
+   app: mysql
+   tier: mysql
+ strategy:
+  type: Recreate
+ template:
+  metadata:
+   name: mysql
+   namespace: ft-services
+   labels:
+    app: mysql
+    tier: mysql
+  spec:
+   containers:
+   - image: docker-registry:5001/mysql
+     name: mysql
+     envFrom:
+     - configMapRef:
+        name: cm-mysql
+     ports:
+     - containerPort: 3306
+     volumeMounts:
+     - name: volume-mysql
+       mountPath: /var/lib/mysql
+   volumes:
+   - name: volume-mysql
+     persistentVolumeClaim:
+      claimName: pvc-mysql

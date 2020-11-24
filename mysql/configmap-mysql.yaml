@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: cm-mysql
+ namespace: ft-services
+data:
+ MYSQL_ROOT_PASSWORD: '1234'
+ MYSQL_DATABASE: 'wordpress'
+ MYSQL_USER: 'hna'
+ MYSQL_PASSWORD: '1234'

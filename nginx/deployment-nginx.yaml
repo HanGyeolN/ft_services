@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: ft-services
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      name: nginx
+      namespace: ft-services
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: docker-registry:5001/nginx
+        livenessProbe:
+         tcpSocket:
+          port: 22
+          host: localhost
+         initialDelaySeconds: 5
+         periodSeconds: 5
+        ports:
+        - containerPort: 50
+

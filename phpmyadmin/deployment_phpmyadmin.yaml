@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: phpmyadmin
+ namespace: ft-services
+ labels:
+  app: phpmyadmin
+spec:
+ selector:
+  matchLabels:
+   app: phpmyadmin
+ template:
+  metadata:
+   name: phpmyadmin
+   namespace: ft-services
+   labels:
+    app: phpmyadmin
+  spec:
+   containers:
+   - name: phpmyadmin
+     image: docker-registry:5001/phpmyadmin
+     ports:
+     - containerPort: 3123
+     livenessProbe:
+      httpGet:
+       scheme: HTTPS
+       path: /status
+       port: 5000
+      initialDelaySeconds: 5
+      periodSeconds: 5
+

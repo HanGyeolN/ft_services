@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: grafana
+ namespace: ft-services
+ labels:
+  app: grafana
+spec:
+ selector:
+  matchLabels:
+   app: grafana
+ strategy:
+  type: Recreate
+ template:
+  metadata:
+   labels:
+    app: grafana
+  spec:
+   containers:
+   - image: docker-registry:5001/grafana
+     name: grafana
+     ports:
+     - containerPort: 3000
