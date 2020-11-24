@@ -23,9 +23,6 @@ spec:
         livenessProbe:
          tcpSocket:
           port: 22
-          host: localhost
-         initialDelaySeconds: 5
+         initialDelaySeconds: 20
          periodSeconds: 5
-        ports:
-        - containerPort: 50
 

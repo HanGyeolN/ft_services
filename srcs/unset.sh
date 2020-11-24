@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export WORK_DIR=/home/ubuntu/ft-services
+export WORK_DIR=/home/ubuntu/ft-services/srcs
 
 $WORK_DIR/grafana/unset.sh
 $WORK_DIR/telegraf/unset.sh

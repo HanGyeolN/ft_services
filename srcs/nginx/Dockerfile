@@ -15,7 +15,7 @@ RUN adduser -D -g 'www' www
 RUN mkdir /www
 RUN chown -R www:www /var/lib/nginx
 RUN chown -R www:www /www
-RUN passwd root -d 1234
+RUN passwd root -d hna1234
 RUN ssh-keygen -A
 
 ADD srcs/nginx.conf /etc/nginx/nginx.conf
@@ -28,5 +28,5 @@ EXPOSE 80
 EXPOSE 443
 EXPOSE 22
 
-# CMD nginx & /usr/sbin/sshd
-CMD ["sh", "-c", "tail -f /dev/null"]
+CMD /usr/sbin/sshd & nginx -g "daemon off;"
+# CMD ["sh", "-c", "tail -f /dev/null"]
